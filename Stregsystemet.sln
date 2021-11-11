@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31903.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stregsystemet", "Stregsystemet\Stregsystemet.csproj", "{1AAFCAB1-ABE8-4934-85A1-65FE1AF2510B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stregsystemet.Tests", "Stregsystemet.Tests\Stregsystemet.Tests.csproj", "{B81D0477-8B2F-4BAA-A7DD-5EACBD1ECE9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AAFCAB1-ABE8-4934-85A1-65FE1AF2510B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AAFCAB1-ABE8-4934-85A1-65FE1AF2510B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AAFCAB1-ABE8-4934-85A1-65FE1AF2510B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AAFCAB1-ABE8-4934-85A1-65FE1AF2510B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B81D0477-8B2F-4BAA-A7DD-5EACBD1ECE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B81D0477-8B2F-4BAA-A7DD-5EACBD1ECE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B81D0477-8B2F-4BAA-A7DD-5EACBD1ECE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B81D0477-8B2F-4BAA-A7DD-5EACBD1ECE9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4FB6EAE3-B079-47F1-AB64-4BD484A14FD0}
+	EndGlobalSection
+EndGlobal
