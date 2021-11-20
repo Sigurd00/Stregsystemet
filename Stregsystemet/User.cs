@@ -2,22 +2,60 @@
 
 namespace Stregsystemet
 {
-    public class User
+    public class User : IComparable<User>
     {
         public delegate string UserBalanceNotification(User user, decimal balance);
         public int ID { get; private set; }
         private static int s_ID = 0;
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public decimal Balance { get; set; }
+        private string _username;
+        public string Username
+        {
+            get
+            {
+                return _username;
+            }
+            set
+            {
+                ValidateUsername(value);
+                _username = value;
+            }
+        }
+        private string _email;
+
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                ValidateEmail(value);
+                _email = value;
+            }
+        }
+        private decimal _balance;
+        public decimal Balance
+        {
+            get
+            {
+                return _balance;
+            }
+            set
+            {
+                //TODO: This should be looked upon with greater detail
+                //It should warn when less than 50
+                _balance = value;
+            }
+        }
         public User(string firstName, string lastName, string username, string email, decimal initialBalance)
         {
             try
             {
-                ValidateUsername(username);
-                ValidateEmail(email);
+                Username = username;
+                Email = email;
                 ID = ++s_ID;
                 FirstName = firstName;
                 LastName = lastName;
@@ -30,7 +68,6 @@ namespace Stregsystemet
                 throw ex;
             }
         }
-
         private void ValidateUsername(string username)
         {
             foreach (char c in username)
@@ -44,12 +81,66 @@ namespace Stregsystemet
         private void ValidateEmail(string email)
         {
             string[] split = email.Split('@');
-            if(split.Length == 0 || split.Length > 2)
+            if (split.Length <= 1 || split.Length > 2)
             {
-                throw new InvalidEmailException();
+                throw new InvalidEmailException($"Could not split the mail into local and domain parts, found {split.Length - 1} @'s in string");
             }
             string local = split[0];
             string domain = split[1];
+
+            foreach (char c in local)
+            {
+                if (!(char.IsLetterOrDigit(c) || c == '.' || c == '_' || c == '-'))
+                {
+                    throw new InvalidCharacterException($"Found an invalid character: {c} in local");
+                }
+            }
+            //Check first and last char in domain
+            if (domain[0] == '.' || domain[0] == '-' || domain[domain.Length - 1] == '.' || domain[domain.Length - 1] == '-')
+            {
+                throw new InvalidCharacterException($"Found an invalid character: Domain must not have dot or dash in the start or end");
+            }
+            //Check characters between start + 1 and end - 1
+            int dots = 0;
+            for (int i = 1; i < domain.Length - 1; i++)
+            {
+                char c = domain[i];
+                if (!(char.IsLetterOrDigit(c) || c == '.' || c == '-'))
+                {
+                    throw new InvalidCharacterException($"Found an invalid character: {c} in domain");
+                }
+                if (c == '.')
+                {
+                    dots++;
+                }
+            }
+            if (dots == 0)
+            {
+                throw new InvalidEmailException("No dots were found in the domain");
+            }
+        }
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName} <{Email}>";
+        }
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as User);
+        }
+        public bool Equals(User other)
+        {
+            return other != null && 
+                   ID == other.ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ID);
+        }
+
+        public int CompareTo(User? other)
+        {
+            return ID.CompareTo(other.ID);
         }
     }
 }

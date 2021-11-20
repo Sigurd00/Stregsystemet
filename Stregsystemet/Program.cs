@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Stregsystemet
 {
@@ -15,7 +14,7 @@ namespace Stregsystemet
                 new User("Sigurd", "Skadborg", "sigurd", "j.skadborg00@gmail.com", 100),
                 new User("Sigurd", "Skadborg", "sigurd", "j.skadborg00@gmail.com", 100),
             };
-            foreach (User user  in users)
+            foreach (User user in users)
             {
                 Console.WriteLine(user.ID);
             }
