@@ -7,17 +7,8 @@ namespace Stregsystemet
     {
         public static void Main(string[] args)
         {
-            List<User> users = new List<User>()
-            {
-                new User("Sigurd", "Skadborg", "sigurd", "j.skadborg00@gmail.com", 100),
-                new User("Sigurd", "Skadborg", "sigurd", "j.skadborg00@gmail.com", 100),
-                new User("Sigurd", "Skadborg", "sigurd", "j.skadborg00@gmail.com", 100),
-                new User("Sigurd", "Skadborg", "sigurd", "j.skadborg00@gmail.com", 100),
-            };
-            foreach (User user in users)
-            {
-                Console.WriteLine(user.ID);
-            }
+            ILogger logger = new StregsystemLogger();
+            Stregsystem stregsystem = new Stregsystem(logger);
         }
     }
 }

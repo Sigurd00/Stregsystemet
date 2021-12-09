@@ -2,6 +2,7 @@
 
 namespace Stregsystemet
 {
+    public delegate void UserBalanceNotification(User user, decimal balance);
     public class User : IComparable<User>
     {
         public delegate string UserBalanceNotification(User user, decimal balance);
