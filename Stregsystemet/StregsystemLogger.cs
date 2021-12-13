@@ -45,6 +45,10 @@ namespace Stregsystemet
                 streamWriter.WriteLine($"WARNING: {message} <{Time()}>");
             }
         }
+        public void OnCommandEntered(string command)
+        {
+            Info($"Command entered: \"{command}\"");
+        }
 
         private string Time()
         {

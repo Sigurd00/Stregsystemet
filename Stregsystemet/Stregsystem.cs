@@ -60,6 +60,7 @@ namespace Stregsystemet
         {
             IEnumerable<Transaction> transactions = _executedTransactions
                 .Where((transaction) => transaction.User == user)
+                .OrderByDescending(transaction => transaction.ID)
                 .Take(count);
 
             return transactions;
@@ -128,7 +129,11 @@ namespace Stregsystemet
                 reader.ReadLine();
                 while (!reader.EndOfStream)
                 {
-                    string line = reader.ReadLine();
+                    string? line = reader.ReadLine();
+                    if(line == null)
+                    {
+                        throw new IOException("Something is burning");
+                    }
                     string[] fields = line.Split(',');
                     int id = int.Parse(fields[0]);
                     string firstName = fields[1];
@@ -136,9 +141,16 @@ namespace Stregsystemet
                     string username = fields[3];
                     decimal balance = decimal.Parse(fields[4]);
                     string email = fields[5];
-                    _users.Add(new User(firstName, lastName, username, email, balance));
+                    User user = new User(id, firstName, lastName, username, email, balance);
+                    user.UserBalanceWarning += OnUserBalanceWarning;
+                    _users.Add(user);
                 }
             }
+        }
+
+        private void OnUserBalanceWarning(User user, decimal balance)
+        {
+            UserBalanceWarning(user, balance);
         }
 
         private string ParseProductName(string productName)

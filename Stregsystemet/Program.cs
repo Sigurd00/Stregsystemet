@@ -8,7 +8,14 @@ namespace Stregsystemet
         public static void Main(string[] args)
         {
             ILogger logger = new StregsystemLogger();
-            Stregsystem stregsystem = new Stregsystem(logger);
+            IStregsystem stregsystem = new Stregsystem(logger);
+            IStregsystemUI ui = new StregsystemCLI(stregsystem);
+            StregsystemController sc = new StregsystemController(ui, stregsystem);
+
+            stregsystem.UserBalanceWarning += sc.OnUserBalanceWarning;
+            ui.CommandEntered += sc.OnCommandEntered;
+            ui.CommandEntered += logger.OnCommandEntered;
+            ui.Start();
         }
     }
 }

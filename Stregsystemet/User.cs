@@ -5,9 +5,9 @@ namespace Stregsystemet
     public delegate void UserBalanceNotification(User user, decimal balance);
     public class User : IComparable<User>
     {
-        public delegate string UserBalanceNotification(User user, decimal balance);
+        public event UserBalanceNotification UserBalanceWarning;
         public int ID { get; private set; }
-        private static int s_ID = 0;
+        //private static int s_ID = 0;
         public string FirstName { get; set; }
         public string LastName { get; set; }
         private string _username;
@@ -46,18 +46,23 @@ namespace Stregsystemet
             }
             set
             {
-                //TODO: This should be looked upon with greater detail
-                //It should warn when less than 50
+                if(_balance - value < 50)
+                {
+                    OnUserBalanceWarning();
+                }
                 _balance = value;
             }
         }
-        public User(string firstName, string lastName, string username, string email, decimal initialBalance)
+        public User(int id, string firstName, string lastName, string username, string email, decimal initialBalance)
         {
             try
             {
                 Username = username;
                 Email = email;
-                ID = ++s_ID;
+                _username = username;
+                _email = email;
+                //ID = ++s_ID;
+                ID = id;
                 FirstName = firstName;
                 LastName = lastName;
                 Username = username;
@@ -143,5 +148,10 @@ namespace Stregsystemet
         {
             return ID.CompareTo(other.ID);
         }
+        protected virtual void OnUserBalanceWarning()
+        {
+            UserBalanceWarning(this, 50);
+        }
+
     }
 }
