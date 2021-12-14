@@ -13,9 +13,10 @@ namespace Stregsystemet
         void DisplayUserBuysProduct(BuyTransaction transaction);
         void DisplayUserBuysProduct(int count, BuyTransaction transaction);
         void Close();
-        void DisplayInsufficientCash(User user, Product product);
+        void DisplayInsufficientCash(string message);
         void DisplayGeneralError(string errorString);
         void DisplayActiveProducts();
+        void DisplayCashWarning(User user, decimal balance);
         void Start();
         event StregsystemEvent CommandEntered;
     }

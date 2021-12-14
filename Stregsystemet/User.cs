@@ -5,7 +5,7 @@ namespace Stregsystemet
     public delegate void UserBalanceNotification(User user, decimal balance);
     public class User : IComparable<User>
     {
-        public event UserBalanceNotification UserBalanceWarning;
+        public event UserBalanceNotification? UserBalanceWarning;
         public int ID { get; private set; }
         //private static int s_ID = 0;
         public string FirstName { get; set; }
@@ -46,11 +46,11 @@ namespace Stregsystemet
             }
             set
             {
-                if(_balance - value < 50)
+                _balance = value;
+                if (value < 500)
                 {
                     OnUserBalanceWarning();
                 }
-                _balance = value;
             }
         }
         public User(int id, string firstName, string lastName, string username, string email, decimal initialBalance)
@@ -150,7 +150,11 @@ namespace Stregsystemet
         }
         protected virtual void OnUserBalanceWarning()
         {
-            UserBalanceWarning(this, 50);
+            //if any subscribers
+            if(UserBalanceWarning is not null)
+            {
+                UserBalanceWarning(this, Balance);
+            }
         }
 
     }

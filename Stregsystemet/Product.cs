@@ -13,6 +13,7 @@
             Name = name;
             Price = price;
             Active = active;
+            CanBeBoughtOnCredit = false;
         }
         public override string ToString()
         {

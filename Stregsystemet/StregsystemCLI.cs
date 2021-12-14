@@ -19,9 +19,9 @@ namespace Stregsystemet
             _running = false;
         }
 
-        public void DisplayAdminCommandNotFoundMessage(string adminCommand)
+        public void DisplayAdminCommandNotFoundMessage(string errorMessage)
         {
-            Console.WriteLine($"Could not find the admin command:{adminCommand}");
+            Console.WriteLine($"Could not find the admin command: {errorMessage}");
         }
 
         public void DisplayGeneralError(string errorString)
@@ -29,9 +29,9 @@ namespace Stregsystemet
             Console.WriteLine($"The system encountered an error: {errorString}");
         }
 
-        public void DisplayInsufficientCash(User user, Product product)
+        public void DisplayInsufficientCash(string message)
         {
-            Console.WriteLine($"{user.Username} does not have enough fonds to buy {product.Name}, please make sure you have sufficient funds");
+            Console.WriteLine(message);
         }
 
         public void DisplayProductNotFound(string product)
@@ -76,6 +76,10 @@ namespace Stregsystemet
             {
                 Console.WriteLine(product);
             }
+        }
+        public void DisplayCashWarning(User user, decimal balance)
+        {
+            Console.WriteLine($"{user.FirstName}, your balance is low: {balance}");
         }
 
         public void Start()

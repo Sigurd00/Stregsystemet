@@ -19,7 +19,7 @@ namespace Stregsystemet
         private List<Transaction> _executedTransactions;
         private List<Product> _products;
         private List<User> _users;
-        public event UserBalanceNotification UserBalanceWarning;
+        public event UserBalanceNotification? UserBalanceWarning;
 
         private ILogger _logger;
         public Stregsystem(ILogger logger)
@@ -76,7 +76,7 @@ namespace Stregsystemet
             User? user = _users.Find(user => predicate(user));
             if (user == null)
             {
-                throw new ArgumentException("Could not find user with given predicate");
+                throw new UserNotFoundException("Could not find user with given predicate");
             }
             return user;
         }
@@ -91,14 +91,17 @@ namespace Stregsystemet
             catch (InsufficientCreditsException ex)
             {
                 _logger.Warn(ex.Message);
+                throw ex;
             }
             catch (InactiveProductException ex)
             {
                 _logger.Warn(ex.Message);
+                throw ex;
             }
             catch (ArgumentException ex)
             {
                 _logger.Error($"Transaction failed:{ex.Message}");
+                throw ex;
             }
         }
         private void PopulateProducts()
@@ -109,7 +112,11 @@ namespace Stregsystemet
                 reader.ReadLine();
                 while (!reader.EndOfStream)
                 {
-                    string line = reader.ReadLine();
+                    string? line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        throw new IOException("Something is burning");
+                    }
                     string[] fields = line.Split(';');
                     int id = int.Parse(fields[0]);
                     string name = ParseProductName(fields[1]);
@@ -148,9 +155,13 @@ namespace Stregsystemet
             }
         }
 
-        private void OnUserBalanceWarning(User user, decimal balance)
+        protected virtual void OnUserBalanceWarning(User user, decimal balance)
         {
-            UserBalanceWarning(user, balance);
+            //If any subscribers
+            if(UserBalanceWarning is not null)
+            {
+                UserBalanceWarning(user, balance);
+            }
         }
 
         private string ParseProductName(string productName)

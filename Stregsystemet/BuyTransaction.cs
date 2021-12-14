@@ -15,7 +15,7 @@ namespace Stregsystemet
 
         public override void Execute()
         {
-            if(User.Balance < Amount)
+            if(User.Balance < Amount && !_product.CanBeBoughtOnCredit)
             {
                 throw new InsufficientCreditsException($"USER: {User} tried to buy PRODUCT: {_product}, but didnt have enough credit");
             }
