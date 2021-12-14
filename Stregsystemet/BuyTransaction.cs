@@ -17,11 +17,11 @@ namespace Stregsystemet
         {
             if(User.Balance < Amount && !_product.CanBeBoughtOnCredit)
             {
-                throw new InsufficientCreditsException($"USER: {User} tried to buy PRODUCT: {_product}, but didnt have enough credit");
+                throw new InsufficientCreditsException(User, _product);
             }
             if(!_product.Active)
             {
-                throw new InactiveProductException($"USER: {User} tried to buy PRODUCT: {_product}, but product is inactive");
+                throw new InactiveProductException(User, _product);
             }
             User.Balance -= Amount;
         }

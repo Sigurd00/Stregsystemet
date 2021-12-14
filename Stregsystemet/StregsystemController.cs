@@ -60,7 +60,7 @@ namespace Stregsystemet
             {
                 _ui.DisplayGeneralError("Id was not a number");
             }
-            catch (ArgumentException)
+            catch (ProductNotFoundException)
             {
                 _ui.DisplayProductNotFound($"Could not find product with ID: {commandArgs[1]}");
             }

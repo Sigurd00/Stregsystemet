@@ -51,7 +51,7 @@ namespace Stregsystemet
             Product? product = _products.Find(product => product.ID == id);
             if (product == null)
             {
-                throw new ArgumentException($"Could not find product with id={id}");
+                throw new ProductNotFoundException(id);
             }
             return product;
         }
@@ -68,16 +68,18 @@ namespace Stregsystemet
 
         public User GetUserByUsername(string username)
         {
-            return GetUser((user) => user.Username == username);
-        }
-
-        public User GetUser(Func<User, bool> predicate)
-        {
-            User? user = _users.Find(user => predicate(user));
+            User? user = GetUser((user) => user.Username == username);
             if (user == null)
             {
-                throw new UserNotFoundException("Could not find user with given predicate");
+                throw new UserNotFoundException(username);
             }
+            return user;
+        }
+
+        public User? GetUser(Func<User, bool> predicate)
+        {
+            User? user = _users.Find(user => predicate(user));
+            
             return user;
         }
         private void ExecuteTransaction(Transaction transaction)
